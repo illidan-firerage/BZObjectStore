@@ -69,6 +69,7 @@
 @property (nonatomic,strong) FMDatabaseQueue *dbQueue;
 @property (nonatomic,strong) FMDatabase *db;
 @property (nonatomic,assign) BOOL rollback;
+@property(strong, nonatomic) NSRecursiveLock *threadLock;
 @end
 
 @implementation BZObjectStore
@@ -97,6 +98,7 @@
     os.dbQueue = dbQueue;
     os.db = nil;
     os.weakSelf = os;
+    os.threadLock = [[NSRecursiveLock alloc] init];
 	
     NSError *err = nil;
     [os registerClass:[BZObjectStoreRelationshipModel class] error:&err];
@@ -132,6 +134,8 @@
 
 - (void)inTransactionWithBlock:(void(^)(FMDatabase *db,BOOL *rollback))block
 {
+    [self.threadLock lock];
+    
     if (self.db) {
         if (block) {
             block(self.db,&_rollback);
@@ -149,6 +153,8 @@
         [self transactionDidEnd:self.db];
         self.db = nil;
     }
+    
+    [self.threadLock unlock];
 }
 
 - (void)transactionDidBegin:(FMDatabase*)db
