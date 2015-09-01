@@ -19,6 +19,12 @@
 
 + (void)fetchWithCondition:(FRDatabaseQueryCondition *)condition completion:(void(^)(NSArray *objects,NSError *error))completion;
 
++ (void)deleteAllWithError:(NSError**)error;
+
++ (void)deleteAllWithCondition:(FRDatabaseQueryCondition *)condition error:(NSError**)error;
+
++ (void)deleteAllWithCondition:(FRDatabaseQueryCondition *)condition completion:(void(^)(NSError *error))completion;
+
 - (NSArray*)fetchAllWithError:(NSError**)error;
 
 - (NSArray *)fetchWithCondition:(FRDatabaseQueryCondition *)condition error:(NSError**)error;

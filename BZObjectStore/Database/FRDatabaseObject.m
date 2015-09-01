@@ -50,6 +50,21 @@
     return [self fetch:[self conditionWithQueryCondition:condition] error:error];
 }
 
++ (void)deleteAllWithError:(NSError *__autoreleasing *)error
+{
+    [self deleteAll:nil error:error];
+}
+
++ (void)deleteAllWithCondition:(FRDatabaseQueryCondition *)condition error:(NSError *__autoreleasing *)error
+{
+    [self deleteAll:[self conditionWithQueryCondition:condition] error:error];
+}
+
++ (void)deleteAllWithCondition:(FRDatabaseQueryCondition *)condition completion:(void (^)(NSError *))completion
+{
+    [self deleteAllInBackground:[self conditionWithQueryCondition:condition] completionBlock:completion];
+}
+
 - (NSArray *)fetchWithCondition:(FRDatabaseQueryCondition *)condition error:(NSError *__autoreleasing *)error
 {
     return [[self class] fetchWithCondition:condition error:error];
