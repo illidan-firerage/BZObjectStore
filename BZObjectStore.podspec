@@ -30,6 +30,11 @@ Pod::Spec.new do |s|
     ps.source_files = 'BZObjectStore/ActiveRecord/*.{h,m}'
   end
 
+  s.subspec 'Database’ do |ps|
+    ps.dependency 'BZObjectStore/Core'
+    ps.source_files = 'BZObjectStore/Database/*.{h,m}'
+  end
+
   s.subspec 'Parse' do |ps|
     ps.ios.deployment_target = '6.0'
     ps.ios.dependency 'BZObjectStore/Core'
